@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,17 +29,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
+        //1.Set up LayoutManager which every RecyclerViews must have one to manage item layout.
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        //2.Prepare data adapter and data set.
         baseRecyclerAdapter = new BaseLinearRecyclerAdapter();
         list = new ArrayList<>();
         samplePackage();
         baseRecyclerAdapter.setmDataList(list);
+        //3.Enable swipe out function, user can use this to remove item.
         baseRecyclerAdapter.enableSwipeOut(true, LinearLayoutManager.VERTICAL);
+        //4.Enable move and swap function, user can use this to change item relative position.
+        baseRecyclerAdapter.enableDataSwap(true);
         recyclerView.setAdapter(baseRecyclerAdapter);
+        //If you want to enable 3 or 4 function, you need to set a callback to ItemTouchHelper, and let
+        //ItemTouchHelper to watch the RecyclerView.
         itemTouchHelper = new ItemTouchHelper(baseRecyclerAdapter.getItemMoveCallback());
         itemTouchHelper.attachToRecyclerView(recyclerView);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this));
+        //5. RecyclerView OnClickListener
+        itemClickListener = new RecyclerItemClickListener(this);
+        itemClickListener.setOnItemClickListener(new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClicked(View view, int position) {
+                //When you click RecyclerView items, will recall this.
+            }
+        });
+        recyclerView.addOnItemTouchListener(itemClickListener);
     }
 
     @Override
