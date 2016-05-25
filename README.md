@@ -18,5 +18,7 @@ itemClickListener.setOnItemClickListener(RecyclerItemClickListener.OnItemClickLi
 recyclerView.addOnItemTouchListener(itemClickListener);
 ```
 
+![](https://github.com/wusp/RecyclerViewHouse/blob/master/app/screenshots/linearadapter.gif)
+
 
 
