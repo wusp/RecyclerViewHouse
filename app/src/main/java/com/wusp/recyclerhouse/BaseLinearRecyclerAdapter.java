@@ -80,6 +80,7 @@ public class BaseLinearRecyclerAdapter extends RecyclerView.Adapter<BaseLinearRe
             itemSwipeCallback.setLayoutDirection(direction);
             itemSwipeCallback.setOnMoveListener(this);
         }
+        itemSwipeCallback.setCanSwiped(canSwipeOut);
     }
 
     /**
@@ -100,6 +101,7 @@ public class BaseLinearRecyclerAdapter extends RecyclerView.Adapter<BaseLinearRe
             itemSwipeCallback = new ItemLinearMoveCallback();
             itemSwipeCallback.setOnMoveListener(this);
         }
+        itemSwipeCallback.setCanMoved(canSwaped);
     }
 
     /**

@@ -10,6 +10,8 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 public class ItemLinearMoveCallback extends ItemTouchHelper.Callback {
     private RecyclerItemLinearMoveListener listener;
     private int layoutDirection;
+    public boolean canSwiped = false;
+    public boolean canMoved = false;
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
@@ -26,7 +28,7 @@ public class ItemLinearMoveCallback extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        if (listener != null){
+        if (listener != null && canMoved){
             return listener.onMoved(recyclerView, viewHolder, target);
         }
         return false;
@@ -34,19 +36,27 @@ public class ItemLinearMoveCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-        if (listener != null){
+        if (listener != null && canSwiped){
             listener.onSwiped(viewHolder, direction);
         }
     }
 
+    public void setCanSwiped(boolean canSwiped) {
+        this.canSwiped = canSwiped;
+    }
+
+    public void setCanMoved(boolean canMoved) {
+        this.canMoved = canMoved;
+    }
+
     @Override
     public boolean isItemViewSwipeEnabled() {
-        return true;
+        return canSwiped;
     }
 
     @Override
     public boolean isLongPressDragEnabled() {
-        return true;
+        return canMoved;
     }
 
     public void setOnMoveListener(RecyclerItemLinearMoveListener listener){
